@@ -24,6 +24,4 @@ Properly installed (PATH) FFmpeg is primerely required for the program to functi
 After installation the FFmpeg must be aded to Windows PATH environment. This can be done e.g. as follows:
 Navigate to Advanced System Information window (Start Menu -> Parameters -> System -> Information about the System -> System information -> Advanced parameters)...
 
-The program itself can be used either as a Python script or as a precompiled exe file. To run the script Python v.3.7.3 or newer is required, with wxPython GUI module (https://wxpython.org/) v.4.0.4 or newer.
-
-For the use of precompiled exe file no other requirement than installed FFmpeg is needed.
+The program itself can be used either as a Python script or as a precompiled exe file. To run the script Python v.3.7.3 or newer is required, with wxPython GUI module (https://wxpython.org/) v.4.0.4 or newer. For the use of precompiled exe file no other requirement than installed FFmpeg is needed.
