@@ -19,9 +19,9 @@ Example of MP3 Editor's GUI:
 ![GUI example](MP3-Editor-GUI-example.png)
 
 ## Installation and dependences
-Properly installed (PATH) FFmpeg is primerely required for the program to function. The latest version of FFmpeg can be downloaded from the program's home page https://ffmpeg.org/download.html#build-windows.
+Properly installed FFmpeg is primerely required for the program to function. The latest version of FFmpeg can be downloaded from the program's home page https://ffmpeg.org/download.html#build-windows.
 
 After installation the FFmpeg must be aded to Windows PATH environment. This can be done e.g. as follows:
-Navigate to Advanced System Information window (Start Menu -> Parameters -> System -> Information about the System -> System information -> Advanced parameters)...
+Navigate to Advanced System Information window (Start Menu -> Parameters -> System -> Information about the System -> System information -> Advanced parameters). Once you get there, click on ...
 
-The program itself can be used either as a Python script or as a precompiled exe file. To run the script Python v.3.7.3 or newer is required, with wxPython GUI module (https://wxpython.org/) v.4.0.4 or newer. For the use of precompiled exe file no other requirement than installed FFmpeg is needed.
+The program itself can be used either as a Python script or as a precompiled exe file. To run the script Python v.3.7.3 or newer is required, with wxPython GUI module (https://wxpython.org/) v.4.0.4 or newer installed. For the use of the precompiled exe file no other requirement than properly installed FFmpeg is needed.
