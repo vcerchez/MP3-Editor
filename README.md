@@ -14,6 +14,8 @@ The editor allows one to adjust (increase) the volume level of the audio files, 
 
 Once the changes are commited, the MP3 file is processed and saved in the folder chosen by user.
 
+Example of MP3 Editor's GUI:
+
 ![GUI example](MP3-Editor-GUI-example.png)
 
 ## Installation and dependences
