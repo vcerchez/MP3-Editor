@@ -12,9 +12,9 @@ In the case of video MP4 files the audio track is extracted and converted to MP3
 
 The editor allows one to adjust (increase) the volume level of the audio files, their (average) bitrate, as well as to edit some of the MP3 tags such as the artist name, the album name, the title of the track and the track number.
 
-Once the changes are commited, the MP3 file is processed and saved in the folder chosen by user.
+Once the desired modifications of the files are entered, the MP3 file can be processed and saved in the folder chosen by user.
 
-Example of MP3 Editor's GUI:
+A snapshot of the MP3 Editor's GUI:
 
 ![GUI example](MP3-Editor-GUI-example.png)
 
