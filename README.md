@@ -1,7 +1,7 @@
 # MP3-Editor
 MP3-Editor is a wrapper around FFmpeg (https://ffmpeg.org/) command-line multimedia editor. It uses Python to build a GUI that simplifies the use of FFmpeg native command-line interface.
 
-The editor is supposed to be used with audio files containing audio books and lectures without any particular attention to the quality of the produced MP3 files (the only quality concern is the size of the output files). Thus it **should not be used to edit _music files_ or any other files where the audio quality is of prime concern**.
+The editor is supposed to be used with audio files containing audio books and lectures without any particular attention to the quality of the produced MP3 files (the only quality concern is the size of the output files). Thus it **should not be used to edit _music files_ or any other files where the audio quality is of prime concern**. For such purpose one can refer to e.g. MP3gain software (http://mp3gain.sourceforge.net/).
 
 The editor was built and tested in Windows 10 environment while it should be easily transferable to Linux and MacOS environments.
 
