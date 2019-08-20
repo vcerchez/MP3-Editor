@@ -1,4 +1,4 @@
-﻿# MP3 Editor v.1 (23/07/2019)
+# MP3 Editor v.2 (20/08/2019)
 
 import wx
 import subprocess as sp
@@ -7,6 +7,8 @@ import os.path
 import sys
 import re
 
+version = 'Aug 20, 2019'
+
 class MainFrame(wx.Frame):
     ''' Main window'''
     
@@ -14,8 +16,8 @@ class MainFrame(wx.Frame):
         # Initialize main window, 
         # disable window resizing with proper style
         super().__init__(parent=None, 
-                         title='MP3 Editor', 
-                         size=(860,400), 
+                         title='MP3 Editor ' + f'(version {version})', 
+                         size=(900,400), 
                          style=wx.DEFAULT_FRAME_STYLE & \
                              ~(wx.RESIZE_BORDER | wx.MAXIMIZE_BOX))
         
@@ -99,13 +101,13 @@ class MainFrame(wx.Frame):
 
                 # Append to list of files
                 self.main_panel.files.append(Track(path, 
-                                                     folder, 
-                                                     file_name, 
-                                                     bitrate, 
-                                                     artist, 
-                                                     album, 
-                                                     title, 
-                                                     track_num))
+                                                   folder, 
+                                                   file_name, 
+                                                   bitrate, 
+                                                   artist, 
+                                                   album, 
+                                                   title, 
+                                                   track_num))
             
             self.main_panel.update_list()
         
@@ -218,13 +220,17 @@ class MainPanel(wx.Panel):
         self.list_ctrl.InsertColumn(3, 'Bitrate', width=60)
         self.list_ctrl.InsertColumn(4, 'Artist', width=100)
         self.list_ctrl.InsertColumn(5, 'Album', width=100)
-        self.list_ctrl.InsertColumn(6, 'Title', width=215)
+        self.list_ctrl.InsertColumn(6, 'Title', width=255)
         self.list_ctrl.InsertColumn(7, 'Track', width=45)
         
         # Add table to main sizer
         main_sizer.Add(self.list_ctrl, 1, wx.ALL | wx.EXPAND, 5)
         
         # Buttons
+        selectall_button = wx.Button(self, label='Select all')
+        selectall_button.Bind(wx.EVT_BUTTON, self.on_select_all)
+        button_sizer.Add(selectall_button, 1, wx.EXPAND)
+        
         remove_button = wx.Button(self, label='Remove')
         remove_button.Bind(wx.EVT_BUTTON, self.on_remove)
         button_sizer.Add(remove_button, 1, wx.EXPAND)
@@ -259,6 +265,11 @@ class MainPanel(wx.Panel):
         # Run main sizer
         self.SetSizer(main_sizer)
         
+    def on_select_all(self, event):
+        num_items = self.list_ctrl.GetItemCount()
+        for i in range(num_items):
+            self.list_ctrl.Select(i)
+    
     def on_remove(self, event):
         '''Remove file from the list'''
         selected = -1
@@ -284,6 +295,10 @@ class MainPanel(wx.Panel):
             
     def on_volume(self, event):
         '''Set volume multiplier coeff'''
+        # If nothing selected
+        if self.list_ctrl.GetFirstSelected() == -1:
+            return
+        
         # Ask user to enter volume level
         volume_x = wx.GetNumberFromUser('Multiply' +\
                                         'current auduio volume level by', 
@@ -312,6 +327,10 @@ class MainPanel(wx.Panel):
         
     def on_bitrate(self, event):
         '''Set new bitrate'''
+        # If nothing selected
+        if self.list_ctrl.GetFirstSelected() == -1:
+            return
+        
         # Ask user to enter bitrate
         new_bitrate = wx.GetNumberFromUser('Set new bitrate', 
                                            '\u2248', 
@@ -338,7 +357,11 @@ class MainPanel(wx.Panel):
     
     def on_artist(self, event):
         '''Edit Artist'''
-       # Ask user to enter artist name 
+        # If nothing selected
+        if self.list_ctrl.GetFirstSelected() == -1:
+            return
+        
+        # Ask user to enter artist name 
         current_name = self.files[self.list_ctrl.GetFirstSelected()].artist
         dlg = wx.TextEntryDialog(self, 
                                  message="Enter artist's name", 
@@ -369,6 +392,10 @@ class MainPanel(wx.Panel):
         
     def on_album(self, event):
         '''Edit Album'''
+        # If nothing selected
+        if self.list_ctrl.GetFirstSelected() == -1:
+            return
+        
         # Ask user to enter album name 
         current_name = self.files[self.list_ctrl.GetFirstSelected()].album
         dlg = wx.TextEntryDialog(self, 
@@ -403,49 +430,94 @@ class MainPanel(wx.Panel):
         selected = self.list_ctrl.GetFirstSelected()
         
         # If no file selected or many items selected - break
-        if self.list_ctrl.GetSelectedItemCount() != 1:
+        if self.list_ctrl.GetSelectedItemCount() == 0:
             return
         
-        # Ask user to enter a title
-        dlg = wx.TextEntryDialog(self, 
-                                 message="Enter a title", 
-                                 caption='Title', 
-                                 value=self.files[selected].title)
+        # If one selected
+        elif self.list_ctrl.GetSelectedItemCount() == 1:
+            # Ask user to enter a title
+            dlg = wx.TextEntryDialog(self, 
+                                     message="Enter a title", 
+                                     caption='Title', 
+                                     value=self.files[selected].title)
+
+            # Get the title and update file list
+            if dlg.ShowModal() == wx.ID_OK:
+                title = dlg.GetValue()
+                self.files[selected].title = title
+
+            # Re-draw table
+            self.update_list()
+
+            dlg.Destroy()
+            return
         
-        # Get the title and update file list
-        if dlg.ShowModal() == wx.ID_OK:
-            title = dlg.GetValue()
-            self.files[selected].title = title
+        # TO FINISH
+        # If multiple selected
+        elif self.list_ctrl.GetSelectedItemCount() > 1:
+            message = "Track titles will be generated automatically" +\
+                        " from the names of the files. Proceed?"
+            dlg = wx.MessageDialog(self, 
+                                   message=message, 
+                                   caption='Track numbers', 
+                                   style=wx.YES|wx.NO|wx.CENTRE, 
+                                   pos=wx.DefaultPosition)
             
-        # Re-draw table
-        self.update_list()
-        
-        dlg.Destroy()
+            if dlg.ShowModal() == wx.ID_YES:
+                for file in self.files:
+                    file.title, _ = os.path.splitext(file.file_name)
+                
+                # Re-draw table
+                self.update_list()
+                return
     
     def on_track_num(self, event):
         '''Edit Track number'''
         selected = self.list_ctrl.GetFirstSelected()
         
         # If no file selected or many items selected - break
-        if self.list_ctrl.GetSelectedItemCount() != 1:
+        if self.list_ctrl.GetSelectedItemCount() == 0:
             return
         
-        track_num = wx.GetNumberFromUser('Enter track number:', 
-                                         'n°', 
-                                         'Track number', 
-                                         self.files[selected].track_num, 
-                                         0, 
-                                         10000)
-        
-        # If user cancel - break
-        if track_num == -1:
+        # If a single file is selected
+        elif self.list_ctrl.GetSelectedItemCount() == 1:
+            track_num = wx.GetNumberFromUser('Enter track number:', 
+                                             'n°', 
+                                             'Track number', 
+                                             self.files[selected].track_num, 
+                                             0, 
+                                             10000)
+            # If user cancel - break
+            if track_num == -1:
+                return
+            
+            # Update track number
+            self.files[selected].track_num = track_num
+            # Re-draw table
+            self.update_list()
             return
         
-        # Update track number
-        self.files[selected].track_num = track_num
-        
-        # Re-draw table
-        self.update_list()
+        # If multiple (2 and more) files are selected - generate automatically 
+        # track numbers for all files in the list
+        elif self.list_ctrl.GetSelectedItemCount() > 1:
+            message = "Track numbers will be generated automatically" +\
+                        " for all files in the list. Proceed?"
+            dlg = wx.MessageDialog(self, 
+                                   message=message, 
+                                   caption='Track numbers', 
+                                   style=wx.YES|wx.NO|wx.CENTRE, 
+                                   pos=wx.DefaultPosition)
+            
+            if dlg.ShowModal() == wx.ID_YES:
+                
+                index = 1
+                for file in self.files:
+                    file.track_num = index
+                    index += 1
+                
+                # Re-draw table
+                self.update_list()
+                return
     
     def update_list(self):
         '''Update table with file list'''
