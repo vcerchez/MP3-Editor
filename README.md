@@ -15,7 +15,7 @@ The editor allows one to adjust (increase) the volume level of the audio files, 
 Once the desired modifications of the files are entered, the MP3 file can be processed and saved in the folder chosen by user.
 
 Here is a snapshot of the editor's GUI:
-![what is this?](/gui_example.png)
+![](/gui_example.png)
 
 ## Installation and dependences
 Properly installed FFmpeg is required. The latest version of FFmpeg can be downloaded from the program's home page https://ffmpeg.org/download.html#build-windows.
