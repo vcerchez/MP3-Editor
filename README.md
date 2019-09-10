@@ -6,7 +6,7 @@ The editor is supposed to be used with audio files containing audio books and le
 The editor was built and tested in Windows 10 environment with MP4 and MP3 files while it should be easily transferable to Linux and MacOS environments and other multimedia formats supported by FFmpeg.
 
 ## Functionality
-Currently the editor can process MP4 and MP3 files.
+Currently the editor can process MP4 and MP3 files. It allows both one by one and batch processing of the files.
 
 In the case of video MP4 files the audio track is extracted and converted to MP3.
 
@@ -14,9 +14,12 @@ The editor allows one to adjust (increase) the volume level of the audio files, 
 
 Once the desired modifications of the files are entered, the MP3 file can be processed and saved in the folder chosen by user.
 
+Here is a snapshot of the editor's GUI:
+![what is this?](/gui_example.png)
+
 ## Installation and dependences
 Properly installed FFmpeg is required. The latest version of FFmpeg can be downloaded from the program's home page https://ffmpeg.org/download.html#build-windows.
 
 After installation the FFmpeg must be aded to Windows PATH environment. This can be done e.g. as follows. First, navigate to Advanced System Information window. The quickest way to get ther is to right-click the My Computer shortcut and select Properties and than click on Advanced System Information. In the opened window click on Environment Variables. This will open a new window where you can choose to edit either the global PATH environment or the PATH environment of the current user. Choose either of them (e.g. global environment), select "Path" row and click Edit. The “Edit environment variable” window will appear. Here, you can click “New” and enter the path to the \bin directory in the FFmpeg installation folder.
 
-The MP3 Editor itself can be used either as a Python script (mp3_editor.py or mp3_editor.ipynb file) or as a precompiled exe file (download and unpack mp3_editor.zip file). To run the script a Python v.3.7 (https://www.python.org/) or newer is required, with wxPython GUI module (https://wxpython.org/) v.4.0.4 or newer installed. For the use of the precompiled exe file no other requirement than properly installed FFmpeg is needed. The executable was built with the PyInstaller v.3.4 (https://www.pyinstaller.org/) with --noconsole flag.
+The MP3 Editor itself can be used either as a Python script (mp3_editor.py or mp3_editor.ipynb file) or as a precompiled exe file (download and unpack mp3_editor.zip file). To run the script Python v.3.7 (https://www.python.org/) or newer is required, with wxPython GUI module (https://wxpython.org/) v.4.0.4 or newer installed. For the use of the precompiled exe file no other requirement than properly installed FFmpeg is needed. The executable was built with the PyInstaller v.3.4 (https://www.pyinstaller.org/) with --noconsole flag.
